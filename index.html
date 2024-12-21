@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .stopwatch {
+            text-align: center;
+        }
+
+        #display {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <div id="display">00:00:00</div>
+        <button onclick="startStopwatch()">Start</button>
+        <button onclick="stopStopwatch()">Stop</button>
+        <button onclick="resetStopwatch()">Reset</button>
+    </div>
+    <script>
+        let hours = 0, minutes = 0, seconds = 0, milliseconds = 0;
+        let timer;
+
+        function startStopwatch() {
+            if (!timer) {
+                timer = setInterval(runStopwatch, 10);
+            }
+        }
+
+        function runStopwatch() {
+            milliseconds += 10;
+            if (milliseconds === 1000) {
+                milliseconds = 0;
+                seconds++;
+            }
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            document.getElementById('display').innerHTML = 
+                (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
+                (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
+                (seconds > 9 ? seconds : "0" + seconds);
+        }
+
+        function stopStopwatch() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        function resetStopwatch() {
+            clearInterval(timer);
+            timer = null;
+            hours = minutes = seconds = milliseconds = 0;
+            document.getElementById('display').innerHTML = "00:00:00";
+        }
+    </script>
+</body>
+</html>
